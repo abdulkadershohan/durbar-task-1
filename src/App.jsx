@@ -4,27 +4,36 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import React from 'react';
 import 'swiper/css';
+
+import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
-import { Autoplay, Navigation } from 'swiper/modules';
+import 'swiper/css/pagination';
+import { Autoplay, EffectCoverflow } from 'swiper/modules';
 
 const data = [
   {
     id: 1,
-    title: 'Node JS Developer',
-    description: `Node JS is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node JS uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.`,
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png'
+    title: 'Pathan',
+    description: `Pathan is an upcoming Indian Hindi-language action thriller film directed by Siddharth Anand and produced by Aditya Chopra under their banner Yash Raj Films. It stars Shah Rukh Khan, Deepika Padukone and John Abraham in lead roles. The film marks the fourth collaboration between Khan and Padukone after Om Shanti Om (2007), Chennai Express (2013) and Happy New Year (2014) and the first collaboration between Khan and Abraham. The film is scheduled to be released theatrically on 2 November 2022, coinciding with the Diwali festival.`,
+    image: 'https://upload.wikimedia.org/wikipedia/en/c/c3/Pathaan_film_poster.jpg'
   },
   {
     id: 2,
-    title: 'React JS Developer ',
-    description: `React is a JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications.`,
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png'
+    title: 'Jawaan',
+    description: `A man is driven by a personal vendetta to rectify the wrongs in society, while keeping a promise made years ago. He comes up against a monstrous outlaw with no fear, who has caused extreme suffering to many.`,
+    image: 'https://akm-img-a-in.tosshub.com/indiatoday/images/media_bank/202309/shah-rukh-khan--jawan--srk-films-295651-1x1.jpg?VersionId=flG135APjYu35mqHqhjNACK3.P335ZY8'
   },
   {
-    id: 2,
-    title: 'Next JS Developer ',
-    description: `Next.js is an open-source development framework built on top of Node.js enabling React based web applications functionalities such as server-side rendering and generating static websites.`,
-    logo: 'https://images.ctfassets.net/23aumh6u8s0i/c04wENP3FnbevwdWzrePs/1e2739fa6d0aa5192cf89599e009da4e/nextjs'
+    id: 3,
+    title: 'Don',
+    description: `Don: Directed by Farhan Akhtar. With Shah Rukh Khan, Priyanka Chopra Jonas, Arjun Rampal, Isha Koppikar. Vijay is recruited by a police officer to`,
+    image: 'https://m.media-amazon.com/images/M/MV5BMzAyMWE0MjgtMDVjNS00ZDMyLWE4NjQtNWU2ZDgyYTlmMjdjXkEyXkFqcGdeQXVyNjQ2MjQ5NzM@._V1_.jpg'
+  },
+  {
+    id: 4,
+    title: 'Don 2',
+    description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat, quae.`,
+    image: 'https://m.media-amazon.com/images/M/MV5BMzNiYWYxNWYtZDYzMC00MzA0LTkzY2UtNDAwNDhiYmVjNmEwXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg'
   },
 ]
 function App() {
@@ -33,45 +42,57 @@ function App() {
   const handleSlideChange = (swiper) => {
     setActiveSlideIndex(swiper.realIndex); // Update active slide index
   };
-  React.useEffect(() => {
-    const findTitle = data.find((item, index) => index === activeSlideIndex);
-    document.title = findTitle.title;
-  }, [activeSlideIndex]);
+
   return (
-    <div
-      className='container'
+    <div className='main-container'
+
     >
-      <Swiper
-        dir="rtl"
-        slidesPerView={1}
-        onSlideChange={handleSlideChange}
-        // onSwiper={(swiper) => console.log(swiper)}
-        //
-        navigation={true}
-        modules={[Autoplay, Navigation]}
-        className="mySwiper"
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
+      <div className='container'>
+        <Swiper
+          onSlideChange={handleSlideChange}
 
-      >
-        {
-          data.map((item) => (
-            <SwiperSlide
-              key={item.id}
-            >
-              <div className='box'>
-                <img src={item.logo} alt={item.title} className='logo' />
-                <h3 className='title'>{item.title}</h3>
-                <p className='description'>{item.description}</p>
-              </div>
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          //
+          effect={'coverflow'}
+          grabCursor={true}
+          centeredSlides={true}
+          loop={true}
+          slidesPerView={'auto'}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 100,
+            modifier: 2.5,
+          }}
+          modules={[EffectCoverflow, Autoplay]}
+          className="swiper_container"
+        >
+          {
+            data.map((item) => (
+              <SwiperSlide
+                key={item.id}
+              >
 
-            </SwiperSlide>
+                <img src={item.image} alt={item.title} />
+              </SwiperSlide>
 
-          ))
-        }
-      </Swiper>
+            ))
+          }
+
+        </Swiper>
+      </div>
+      <div className='rightSection'>
+        <h1>
+          {data[activeSlideIndex].title}
+        </h1>
+        <p>
+          {data[activeSlideIndex].description}
+        </p>
+        <button className='btn'> Watch Now</button>
+      </div>
     </div>
   )
 }
